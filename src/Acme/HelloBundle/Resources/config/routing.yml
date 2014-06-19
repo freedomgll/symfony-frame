@@ -1,0 +1,13 @@
+acme_hello_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AcmeHelloBundle:Default:index }
+
+login:
+    path: /login
+    defaults: { _controller: AcmeHelloBundle:Security:login }
+
+login_check:
+    path: /login_check
+
+logout:
+    path:   /logout

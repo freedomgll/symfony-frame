@@ -1,0 +1,19 @@
+acme_store_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AcmeStoreBundle:Default:index }
+
+acme_store_create:
+    pattern:  /create
+    defaults: { _controller: AcmeStoreBundle:Default:create }
+
+acme_store_show:
+    pattern:  /db/show/{id}
+    defaults: { _controller: AcmeStoreBundle:Default:show }
+
+acme_store_update:
+    pattern:  /db/update/{id}
+    defaults: { _controller: AcmeStoreBundle:Default:update }
+
+acme_store_delete:
+    pattern:  /db/delete/{id}
+    defaults: { _controller: AcmeStoreBundle:Default:delete }
