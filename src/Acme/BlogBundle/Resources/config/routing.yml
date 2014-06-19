@@ -1,7 +1,15 @@
-blog_list:
-    path: /blog
-    defaults: { _controller: AcmeBlogBundle:Blog:list }
+blog_welcome:
+    path:     /
+    defaults: { _controller: AcmeBlogBundle:Welcome:index }
 
 blog_show:
     path: /blog/show/{id}
     defaults: { _controller: AcmeBlogBundle:Blog:show }
+
+blog:
+    path: /blog
+    defaults: { _controller: AcmeBlogBundle:Blog:blog }
+
+photos:
+    path: /photos
+    defaults: { _controller: AcmeBlogBundle:Blog:photo }

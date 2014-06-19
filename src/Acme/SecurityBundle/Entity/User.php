@@ -1,6 +1,6 @@
 <?php
-// src/Acme/HelloBundle/Entity/User.php
-namespace Acme\HelloBundle\Entity;
+// src/Acme/SecurityBundle/Entity/User.php
+namespace Acme\SecurityBundle\Entity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 /**

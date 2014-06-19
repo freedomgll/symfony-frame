@@ -35,4 +35,14 @@ class BlogController extends Controller
             array('post' => $post)
         );*/
     }
+
+    public function blogAction()
+    {
+        return new Response('<h1>Blog List</h1>');
+    }
+
+    public function photoAction()
+    {
+        return new Response('<h1>Photos List</h1>');
+    }
 }

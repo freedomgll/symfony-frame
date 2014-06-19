@@ -1,0 +1,33 @@
+acme_security_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AcmeSecurityBundle:Default:index }
+
+login:
+    path: /login
+    defaults: { _controller: AcmeSecurityBundle:Security:login }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+query_user:
+    path: /admin/query
+    defaults: { _controller: AcmeSecurityBundle:Security:query }
+
+create_user:
+    path: /admin/create
+    defaults: { _controller: AcmeSecurityBundle:Security:create }
+
+edit_user:
+    path: /admin/edit/{id}
+    defaults: { _controller: AcmeSecurityBundle:Security:edit }
+
+delete_user:
+    path: /admin/delete/{id}
+    defaults: { _controller: AcmeSecurityBundle:Security:delete }
+
+update_user:
+    path: /admin/update
+    defaults: { _controller: AcmeSecurityBundle:Security:update }

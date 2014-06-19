@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\HelloBundle\DependencyInjection;
+namespace Acme\SecurityBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class AcmeHelloExtension extends Extension
+class AcmeSecurityExtension extends Extension
 {
     /**
      * {@inheritDoc}

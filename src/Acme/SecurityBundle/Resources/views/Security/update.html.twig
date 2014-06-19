@@ -1,0 +1,13 @@
+<html>
+<body>
+<form action="{{ path('update_user') }}" method="post">
+    <label for="id">Id:</label>
+    <input type="text" readonly="true" id="id" name="_id" value="{{ user.id }}"/>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" value="{{ user.username }}"/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" value="{{ user.password }}" />
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>

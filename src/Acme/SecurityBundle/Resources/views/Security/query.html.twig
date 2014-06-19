@@ -1,0 +1,26 @@
+<html>
+<body>
+<form action="{{ path('create_user') }}" method="post">
+    {% for user in users %}
+        <li>
+            <label>Username:</label>
+            <input type="text" value="{{ user.username }}" />
+            <label>Password:</label>
+            <input type="text" value="{{ user.password }}" />
+            <a href="{{ path('edit_user', { 'id': user.id }) }}">
+                Edit
+            </a>
+            <a href="{{ path('delete_user', { 'id': user.id }) }}">
+                Delete
+            </a>
+        </li>
+    {% endfor %}
+    <br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" />
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>
