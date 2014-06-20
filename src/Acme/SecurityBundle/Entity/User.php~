@@ -27,10 +27,14 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+
+    /**
      * @ORM\ManyToMany(targetEntity="Role")
      * @ORM\JoinTable(name="users_roles",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id", unique=true)}
      *      )
      **/
     private $roles;
@@ -113,13 +117,7 @@ class User implements UserInterface
     public function getRoles()
     {
         //return array('ROLE_ADMIN');
-        //return $this->roles->toArray();
-
-        $roles = array();
-        foreach ($this->roles as $userRole) {
-            $roles[] = $userRole->getRole();
-        }
-        return $roles;
+        return $this->roles->toArray();
     }
 
     /**
@@ -127,41 +125,5 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-    }
-
-    /**
-     * Add roles
-     *
-     * @param \Acme\SecurityBundle\Entity\Role $roles
-     * @return User
-     */
-    public function addRole(\Acme\SecurityBundle\Entity\Role $roles)
-    {
-        $this->roles[] = $roles;
-
-        return $this;
-    }
-
-    /**
-     * Add roles
-     *
-     * @param \Acme\SecurityBundle\Entity\Role $roles
-     * @return User
-     */
-    public function addRoles($roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * Remove roles
-     *
-     * @param \Acme\SecurityBundle\Entity\Role $roles
-     */
-    public function removeRole(\Acme\SecurityBundle\Entity\Role $roles)
-    {
-        $this->roles->removeElement($roles);
     }
 }

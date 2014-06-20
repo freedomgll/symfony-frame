@@ -1,4 +1,6 @@
 /vendor/
 /app/cache/dev
+/app/cache/prod
+/app/logs
 /.idea
 /web/bundles

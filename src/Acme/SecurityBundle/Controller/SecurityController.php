@@ -3,6 +3,7 @@
 namespace Acme\SecurityBundle\Controller;
 
 use Acme\SecurityBundle\Entity\User;
+use Acme\SecurityBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -47,13 +48,29 @@ class SecurityController extends Controller
         return $this->render('AcmeSecurityBundle:Security:query.html.twig',array('users'=>$users));
     }
 
+    private function getRolesByIds($ids) {
+        $roles = array();
+        $em = $this->getDoctrine()
+            ->getRepository('AcmeSecurityBundle:Role');
+        foreach($ids as $id) {
+            $roles[] = $em->find($id);
+        }
+        return $roles;
+    }
+
     public function createAction(Request $request){
         $username = $request->request->get('_username');
         $password = $request->request->get('_password');
 
+        $items = $request->request->get('roles');
+
+        $role = $this->getRolesByIds($items);
+
+
         $user = new User();
         $user->setUsername($username);
         $user->setPassword($password);
+        $user->addRoles($role);
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
