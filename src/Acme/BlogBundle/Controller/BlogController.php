@@ -38,7 +38,20 @@ class BlogController extends Controller
 
     public function blogAction()
     {
-        return new Response('<h1>Blog List</h1>');
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blogPosts = $repository->findAll();
+
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts));
+    }
+
+    public function viewpostAction($id)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blogPost = $repository->find($id);
+        $blogPost->setPostCont(htmlspecialchars_decode($blogPost->getPostCont()));
+        return $this->render('AcmeBlogBundle:Blog:viewpost.html.php',array('blogPost'=>$blogPost));
     }
 
     public function photoAction()

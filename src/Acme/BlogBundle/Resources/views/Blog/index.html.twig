@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog</title>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
+</head>
+<body>
+<div id="wrapper">
+    <h1>Blog</h1>
+    <hr />
+    {% for post in blogPosts %}
+        <div>
+            <h1><a href="{{  path('blog_viewpost', { 'id': post.id })}}">{{ post.postTitle }}</a></h1>
+            <p>Posted on {{ post.postDate|date('jS M Y H:i:s') }}</p>
+            <p>{{ post.postDesc }}</p>
+            <p><a href="{{  path('blog_viewpost', { 'id': post.id })}}">Read More</a></p>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

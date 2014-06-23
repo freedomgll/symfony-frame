@@ -99,3 +99,6 @@ ul#demo-list a {
     white-space: pre;
     font-family: monospace;
 }
+.admin-link {
+    float:  right;
+}

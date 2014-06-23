@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog - {{ blogPost.postTitle }}</title>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
+</head>
+<body>
+<div id="wrapper">
+    <h1>Blog</h1>
+    <hr />
+    <p><a href="{{ path('blog') }}">Blog Index</a></p>
+    <div>
+        <h1>{{ blogPost.postTitle }}</h1>
+        <p>Posted on {{ blogPost.postDate|date('jS M Y H:i:s') }}</p>
+        <p>{{ blogPost.postCont }}</p>
+        <p>{{ include('AcmeBlogBundle:Blog:viewpost.html.php') }}</p>
+
+    </div>
+</div>
+</body>
+</html>

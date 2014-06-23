@@ -6,7 +6,13 @@
 
 {% block content %}
     {% set version = constant('Symfony\\Component\\HttpKernel\\Kernel::MAJOR_VERSION') ~ '.' ~ constant('Symfony\\Component\\HttpKernel\\Kernel::MINOR_VERSION')%}
-
+    <div id="footer" class="admin-link">
+        <label> Hi,{{ app.user.username }}</label>
+        {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('query_user') }}" >Admin</a>
+        {% endif %}
+        <a href="{{ path('logout') }}" >Logout</a>
+    </div>
     <h1 class="title">Blog</h1>
 
     <div class="symfony-blocks-welcome">

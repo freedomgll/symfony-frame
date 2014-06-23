@@ -1,0 +1,37 @@
+<?php
+namespace Acme\BlogBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ */
+class BLOG_POSTS
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $postTitle;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $postDesc;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $postCont;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $postDate;
+
+}

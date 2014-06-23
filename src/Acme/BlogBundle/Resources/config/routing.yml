@@ -10,6 +10,10 @@ blog:
     path: /blog
     defaults: { _controller: AcmeBlogBundle:Blog:blog }
 
+blog_viewpost:
+    path: /blog/viewpost/{id}
+    defaults: { _controller: AcmeBlogBundle:Blog:viewpost }
+
 photos:
     path: /photos
     defaults: { _controller: AcmeBlogBundle:Blog:photo }
