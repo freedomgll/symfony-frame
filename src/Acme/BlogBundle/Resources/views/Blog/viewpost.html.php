@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Blog - <?php echo $blogPost->getPostTitle();?></title>
-    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
+    <link rel="stylesheet" href="/bundles/acmeblog/css/normalize.css" />
+    <link rel="stylesheet" href="/bundles/acmeblog/css/main.css" />
 </head>
 <body>
 
@@ -12,7 +12,7 @@
 
     <h1>Blog</h1>
     <hr />
-    <p><a href="./">Blog Index</a></p>
+    <p><a href="/blog">Blog Index</a></p>
 
 
     <?php

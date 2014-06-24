@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
+    <script language="JavaScript" type="text/javascript">
+        function delpost(url, title)
+        {
+            if (confirm("Are you sure you want to delete '" + title + "'"))
+            {
+                window.location.href = url;
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div id="wrapper">
+    {{ include('AcmeBlogBundle:Admin:menu.html.twig') }}
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        {% for post in blogPosts %}
+            <tr>
+                <td>{{ post.postTitle }}</td>
+                <td>{{ post.postDate|date('jS M Y') }}</td>
+                <td>
+                    <a href="{{  path('blog_edit', { 'id': post.id })}}">Edit</a> |
+                    <a href="javascript:delpost('{{ path("blog_delete",{ "id": post.id}) }}','{{ post.postTitle }}')">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p><a href="{{ path('blog_addpost') }}">Add Post</a></p>
+</div>
+</body>
+</html>

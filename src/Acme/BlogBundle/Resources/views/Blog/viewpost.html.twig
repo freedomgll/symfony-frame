@@ -14,9 +14,7 @@
     <div>
         <h1>{{ blogPost.postTitle }}</h1>
         <p>Posted on {{ blogPost.postDate|date('jS M Y H:i:s') }}</p>
-        <p>{{ blogPost.postCont }}</p>
-        <p>{{ include('AcmeBlogBundle:Blog:viewpost.html.php') }}</p>
-
+        <p>{{ blogPost.postCont|raw }}</p>
     </div>
 </div>
 </body>

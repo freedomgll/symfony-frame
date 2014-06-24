@@ -3,6 +3,11 @@
 namespace Acme\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
+use \DateTime;
+
+use Acme\BlogBundle\Entity\Blog;
 
 class BlogController extends Controller
 {
@@ -50,8 +55,78 @@ class BlogController extends Controller
         $repository = $this->getDoctrine()
             ->getRepository('AcmeBlogBundle:Blog');
         $blogPost = $repository->find($id);
-        $blogPost->setPostCont(htmlspecialchars_decode($blogPost->getPostCont()));
-        return $this->render('AcmeBlogBundle:Blog:viewpost.html.php',array('blogPost'=>$blogPost));
+        return $this->render('AcmeBlogBundle:Blog:viewpost.html.twig',array('blogPost'=>$blogPost));
+    }
+
+    public function addpostAction()
+    {
+
+        return $this->render('AcmeBlogBundle:Blog:add-post.html.twig');
+    }
+
+    public function editAction($id)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blog = $repository->find($id);
+
+        return $this->render('AcmeBlogBundle:Blog:edit-post.html.twig',array('blog'=>$blog));
+    }
+
+    public function updateAction(Request $request)
+    {
+        $postId = $request->request->get('postId');
+        $postTitle = $request->request->get('postTitle');
+        $postDesc = $request->request->get('postDesc');
+        $postCont = $request->request->get('postCont');
+
+        $blog = new Blog();
+        if(isset($postId)) {
+            $repository = $this->getDoctrine()
+                ->getRepository('AcmeBlogBundle:Blog');
+            $blog = $repository->find($postId);
+        }
+        $blog->setPostTitle($postTitle);
+        $blog->setPostDesc($postDesc);
+        $blog->setPostCont($postCont);
+        $blog->setPostDate(new DateTime());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blog);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('blog_admin_index'));
+    }
+
+    public function deleteAction($id)
+    {
+        $blog = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog')
+            ->find($id);
+        if (!$blog) {
+            throw $this->createNotFoundException(
+                'No blog found for id '.$id
+            );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($blog);
+        $em->flush();
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blogPosts = $repository->findAll();
+
+        return $this->render('AcmeBlogBundle:Admin:index.html.twig',array('blogPosts'=>$blogPosts));
+    }
+
+    public function indexAction()
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blogPosts = $repository->findAll();
+
+        return $this->render('AcmeBlogBundle:Admin:index.html.twig',array('blogPosts'=>$blogPosts));
     }
 
     public function photoAction()

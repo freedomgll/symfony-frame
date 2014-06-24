@@ -14,6 +14,26 @@ blog_viewpost:
     path: /blog/viewpost/{id}
     defaults: { _controller: AcmeBlogBundle:Blog:viewpost }
 
+blog_addpost:
+    path: /blog/addpost
+    defaults: { _controller: AcmeBlogBundle:Blog:addpost }
+
+blog_edit:
+    path: /blog/edit/{id}
+    defaults: { _controller: AcmeBlogBundle:Blog:edit }
+
+blog_update:
+    path: /blog/update
+    defaults: { _controller: AcmeBlogBundle:Blog:update }
+
+blog_delete:
+    path: /blog/delete/{id}
+    defaults: { _controller: AcmeBlogBundle:Blog:delete }
+
+blog_admin_index:
+    path: /blog/admin/index
+    defaults: { _controller: AcmeBlogBundle:Blog:index }
+
 photos:
     path: /photos
     defaults: { _controller: AcmeBlogBundle:Blog:photo }
