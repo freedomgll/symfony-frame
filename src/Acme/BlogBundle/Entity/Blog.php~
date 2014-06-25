@@ -145,27 +145,4 @@ class Blog
         return $this->postDate;
     }
 
-
-    /**
-     * Set buser
-     *
-     * @param \Acme\BlogBundle\Entity\BUser $buser
-     * @return Blog
-     */
-    public function setBuser(\Acme\BlogBundle\Entity\BUser $buser = null)
-    {
-        $this->buser = $buser;
-
-        return $this;
-    }
-
-    /**
-     * Get buser
-     *
-     * @return \Acme\BlogBundle\Entity\BUser 
-     */
-    public function getBuser()
-    {
-        return $this->buser;
-    }
 }

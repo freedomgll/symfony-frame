@@ -1,6 +1,7 @@
 <?php
 // src/Acme/BlogBundle/Controller/BlogController.php
 namespace Acme\BlogBundle\Controller;
+use Acme\BlogBundle\Entity\BUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,7 +86,19 @@ class BlogController extends Controller
             $repository = $this->getDoctrine()
                 ->getRepository('AcmeBlogBundle:Blog');
             $blog = $repository->find($postId);
+        }else{
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT b FROM AcmeBlogBundle:BUser b JOIN b.user u
+                 WHERE u.id = :id')->setParameter('id',$this->getUser()->getId());
+
+            try {
+                $buser = $query->getSingleResult();
+                $blog->setBuser($buser);
+            } catch (\Doctrine\ORM\NoResultException $e) {
+            }
         }
+
         $blog->setPostTitle($postTitle);
         $blog->setPostDesc($postDesc);
         $blog->setPostCont($postCont);
@@ -122,9 +135,21 @@ class BlogController extends Controller
 
     public function indexAction()
     {
-        $repository = $this->getDoctrine()
-            ->getRepository('AcmeBlogBundle:Blog');
-        $blogPosts = $repository->findAll();
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $repository = $this->getDoctrine()
+                ->getRepository('AcmeBlogBundle:Blog');
+            $blogPosts = $repository->findAll();
+
+        }elseif ($this->get('security.context')->isGranted('ROLE_USER')) {
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'SELECT b FROM AcmeBlogBundle:Blog b JOIN b.buser bu JOIN bu.user u
+                 WHERE u.id = :id
+                '
+            )->setParameter('id',$this->getUser()->getId());
+
+            $blogPosts = $query->getResult();
+        }
 
         return $this->render('AcmeBlogBundle:Admin:index.html.twig',array('blogPosts'=>$blogPosts));
     }
