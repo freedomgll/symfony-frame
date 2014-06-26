@@ -151,4 +151,32 @@ class SecurityController extends Controller
 
         return $this->render('AcmeSecurityBundle:Security:query.html.twig',array('users'=>$users));
     }
+
+    public function registerAction(Request $request){
+        $id = $request->request->get('_id');
+        $username = $request->request->get('_username');
+        $password = $request->request->get('_password');
+
+        $user = $this->getDoctrine()
+            ->getRepository('AcmeSecurityBundle:User')
+            ->find($id);
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No user found for id '.$id
+            );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user->setUsername($username);
+        $user->setPassword($password);
+        $em->flush();
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeSecurityBundle:User');
+
+        $users = $repository->findAll();
+
+        return $this->render('AcmeSecurityBundle:Security:query.html.twig',array('users'=>$users));
+    }
+
 }

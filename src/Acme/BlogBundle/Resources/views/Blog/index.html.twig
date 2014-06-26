@@ -5,9 +5,11 @@
     <title>Blog</title>
     <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/demo.css') }}" />
 </head>
 <body>
 <div id="wrapper">
+    {{ include('AcmeBlogBundle:Admin:head.html.twig') }}
     <h1>Blog</h1>
     <hr />
     {% for post in blogPosts %}

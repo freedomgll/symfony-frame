@@ -37,3 +37,11 @@ blog_admin_index:
 photos:
     path: /photos
     defaults: { _controller: AcmeBlogBundle:Blog:photo }
+
+login_register:
+    path: /loginRegister
+    defaults: { _controller: AcmeBlogBundle:Security:loginRegister }
+
+register:
+    path: /register
+    defaults: { _controller: AcmeBlogBundle:Security:register }
