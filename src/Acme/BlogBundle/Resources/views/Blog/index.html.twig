@@ -20,6 +20,18 @@
             <p><a href="{{  path('blog_viewpost', { 'id': post.id })}}">Read More</a></p>
         </div>
     {% endfor %}
+    <ul style="float:right;list-style-type:none">
+        <li style="display:inline;">
+            {% if index <= 0 %}
+                <span>Prev</span>
+            {% else %}
+                <a href="{{ path('page',{'index':index, 'p': 'p' }) }}" target="_self">Prev</a>
+            {% endif %}
+        </li>
+        <li style="display:inline;">
+            <a href="{{ path('page',{ 'index':index, 'p': 'n' }) }}" target="_self">Next</a>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

@@ -2,6 +2,7 @@
 // src/Acme/BlogBundle/Controller/BlogController.php
 namespace Acme\BlogBundle\Controller;
 use Acme\BlogBundle\Entity\BUser;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,8 @@ use Acme\BlogBundle\Entity\Blog;
 
 class BlogController extends Controller
 {
+    static $step = 2;
+
     public function listAction()
     {
         /*$posts = $this->get('doctrine')
@@ -48,7 +51,40 @@ class BlogController extends Controller
             ->getRepository('AcmeBlogBundle:Blog');
         $blogPosts = $repository->findAll();
 
-        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts));
+        #return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts));
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$this->pagination(),'index'=>0));
+    }
+
+    public function pagination($beginIndex = 0) {
+        $dql = "SELECT b FROM AcmeBlogBundle:Blog b";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql)
+            ->setFirstResult($beginIndex)
+            ->setMaxResults(self::$step);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+
+        $c = count($paginator);
+        foreach ($paginator as $post) {
+            $post->getPostTitle();
+            #echo $post->getHeadline() . "\n";
+        }
+        return $paginator;
+    }
+
+    public function pageAction($index,$p)
+    {
+        if ($p == 'p') {
+            if ($index - self::$step >= 0) {
+                $index = $index - self::$step;
+            }
+            $blogPosts = $this->pagination($index);
+        } elseif ($p == 'n') {
+            $index = $index + self::$step;
+            $blogPosts = $this->pagination($index);
+        }
+
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>$index));
     }
 
     public function viewpostAction($id)

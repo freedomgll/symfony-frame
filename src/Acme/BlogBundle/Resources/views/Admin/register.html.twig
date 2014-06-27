@@ -19,7 +19,7 @@
                     <label for="username">Username</label>
                 </td>
                 <td>
-                    <input type="text" id="username" name="_username" value=""/>
+                    <input type="text" id="username" name="_username" value="{{ user.username }}"/>
                 </td>
             </tr>
             <tr>
@@ -27,7 +27,7 @@
                     <label for="password">Password</label>
                 </td>
                 <td>
-                    <input type="password" id="password" name="_password" value=""/>
+                    <input type="password" id="password" name="_password" value="{{ user.password }}"/>
                 </td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
                     <label for="passwordConfirm">Confirm Password</label>
                 </td>
                 <td>
-                    <input type="password" id="passwordConfirm" name="_passwordConfirm" value=""/>
+                    <input type="password" id="passwordConfirm" name="_passwordConfirm" value="{{ user.passwordConfirm }}"/>
                 </td>
             </tr>
             <tr>

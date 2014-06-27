@@ -1,7 +1,7 @@
 <div id="footer" class="admin-link">
     {% if is_granted("ROLE_USER") %}
         <label> Hi,{{ app.user.username }}</label>
-        <a href="{{ path('query_user') }}" >Admin</a>
+        <a href="{{ path('blog_admin_index') }}" >Admin</a>
         <a href="{{ path('logout') }}" >Logout</a>
     {% else %}
         <label> Welcome!</label>

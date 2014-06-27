@@ -1,16 +1,42 @@
-{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
-{% if error %}
-    <div>{{ error.message }}</div>
-{% endif %}
-<form action="{{ path('login_check') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
-    {#
-    If you want to control the URL the user
-    is redirected to on success (more details below)
-    <input type="hidden" name="_target_path" value="/account" />
-    #}
-    <button type="submit">login</button>
-</form>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}"/>
+</head>
+<body>
+<div id="wrapper">
+    {% if error %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+    <h1>Blog</h1>
+    <br>
+    <hr />
+    <form action="{{ path('login_check') }}" method="post">
+        <table>
+            <tr>
+                <td>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="_password"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">login</button>
+                </td>
+            </tr>
+        </table>
+        {#
+        If you want to control the URL the user
+        is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+        #}
+    </form>
+</div>
+</body>
+</html>
