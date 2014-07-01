@@ -1,3 +1,7 @@
+_blog:
+    resource: "@AcmeBlogBundle/Controller/BlogController.php"
+    type:     annotation
+
 blog_welcome:
     path:     /
     defaults: { _controller: AcmeBlogBundle:Welcome:index }

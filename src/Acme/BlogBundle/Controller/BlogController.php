@@ -6,6 +6,8 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use \DateTime;
 
@@ -193,5 +195,22 @@ class BlogController extends Controller
     public function photoAction()
     {
         return new Response('<h1>Photos List</h1>');
+    }
+
+    /**
+     * @Route("/blog/q",name="blog_search")
+     * @Template()
+     */
+    public function searchBlogAction(Request $request)
+    {
+        $q = '%'.$request->query->get('q').'%';
+
+        $dql = "SELECT b FROM AcmeBlogBundle:Blog b WHERE b.postCont LIKE :q";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql)->setParameter('q',$q);
+        $blogPosts = $query->getResult();
+
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>0));
+        #return $this->blogAction();
     }
 }

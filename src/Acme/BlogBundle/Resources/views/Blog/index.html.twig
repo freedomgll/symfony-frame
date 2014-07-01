@@ -3,21 +3,35 @@
 <head>
     <meta charset="utf-8">
     <title>Blog</title>
-    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/demo.css') }}"/>
 </head>
 <body>
 <div id="wrapper">
     {{ include('AcmeBlogBundle:Admin:head.html.twig') }}
     <h1>Blog</h1>
-    <hr />
+    <br>
+    <form action="{{ path('blog_search') }}" method="get">
+        <input name="q" id="search-id" type="search" placeholder="Search Blog"/>
+        <button type="submit" class="sf-button">
+                                <span class="border-l">
+                                    <span class="border-r">
+                                        <span class="btn-bg">Search</span>
+                                    </span>
+                                </span>
+        </button>
+    </form>
+    <hr/>
     {% for post in blogPosts %}
         <div>
-            <h1><a href="{{  path('blog_viewpost', { 'id': post.id })}}">{{ post.postTitle }}</a></h1>
+            <h1><a href="{{ path('blog_viewpost', { 'id': post.id }) }}">{{ post.postTitle }}</a></h1>
+
             <p>Posted on {{ post.postDate|date('jS M Y H:i:s') }}</p>
+
             <p>{{ post.postDesc|raw }}</p>
-            <p><a href="{{  path('blog_viewpost', { 'id': post.id })}}">Read More</a></p>
+
+            <p><a href="{{ path('blog_viewpost', { 'id': post.id }) }}">Read More</a></p>
         </div>
     {% endfor %}
     <ul style="float:right;list-style-type:none">
