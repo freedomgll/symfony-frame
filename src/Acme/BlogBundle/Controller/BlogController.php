@@ -61,29 +61,7 @@ class BlogController extends Controller
 
     public function blogAction()
     {
-        $repository = $this->getDoctrine()
-            ->getRepository('AcmeBlogBundle:Blog');
-        $blogPosts = $repository->findAll();
-
-        #return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts));
-        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$this->pagination(),'index'=>0));
-    }
-
-    public function pagination($beginIndex = 0) {
-        $dql = "SELECT b FROM AcmeBlogBundle:Blog b";
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery($dql)
-            ->setFirstResult($beginIndex)
-            ->setMaxResults(self::$step);
-
-        $paginator = new Paginator($query, $fetchJoinCollection = true);
-
-        $c = count($paginator);
-        foreach ($paginator as $post) {
-            $post->getPostTitle();
-            #echo $post->getHeadline() . "\n";
-        }
-        return $paginator;
+        return $this->pageAction('%',0);
     }
 
     public function viewpostAction($id)
@@ -201,23 +179,13 @@ class BlogController extends Controller
     public function searchBlogAction(Request $request)
     {
         $q = '%'.$request->query->get('s').'%';
-
-        $dql = "SELECT b FROM AcmeBlogBundle:Blog b WHERE b.postCont LIKE :q";
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery($dql)->setParameter('q',$q);
-        $blogPosts = $query->getResult();
-
-        $this->setWd($q);
-
-        $pages = $this->generatePages(8,0,2,'test');
-
-        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>0,'pages'=>$pages));
-        #return $this->blogAction();
+        return $this->pageAction($q,0);
     }
 
     private function generatePages($totals, $cp, $step, $wd) {
         $pages = array();
         if ($cp > 0) {
+            $pages[] = new PageDomain($wd,0,'First');
             $pages[] = new PageDomain($wd,$cp - $step,'Prev');
         }
 
@@ -231,6 +199,8 @@ class BlogController extends Controller
 
         if ($cp + $step < $totals) {
             $pages[] = new PageDomain($wd,$cp + $step,'Next');
+            $tmp = $totals % $step == 0 ? $step : $totals % $step ;
+            $pages[] = new PageDomain($wd,$totals - $tmp,'Last');
         }
 
         return $pages;
@@ -242,8 +212,25 @@ class BlogController extends Controller
      */
     public function pageAction($wd,$pn)
     {
-        $blogPosts = $this->pagination($pn);
-        $pages = $this->generatePages(8,$pn,2,$wd);
+        $result = $this->pagination($wd,$pn);
+        $blogPosts = $result[0];
+        $cp = $result[1];
+        $pages = $this->generatePages($cp,$pn,self::$step,$wd);
         return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>$pn,'pages'=>$pages));
+    }
+
+    public function pagination($wd = '',$beginIndex = 0) {
+
+        $dql = "SELECT b FROM AcmeBlogBundle:Blog b WHERE b.postCont LIKE :s";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql)
+            ->setParameter('s',$wd)
+            ->setFirstResult($beginIndex)
+            ->setMaxResults(self::$step);
+
+        $paginator = new Paginator($query, $fetchJoinCollection = true);
+        $c = count($paginator);
+
+        return array($paginator,$c);
     }
 }
