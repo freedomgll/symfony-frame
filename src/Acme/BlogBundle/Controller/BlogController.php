@@ -12,13 +12,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \DateTime;
 
 use Acme\BlogBundle\Entity\Blog;
-use Acme\BlogBundle\Common\PageDomain;
+use Util\CommonBundle\Common\Pagination;
 
 class BlogController extends Controller
 {
     private $wd = '';
 
-    static $step = 2;
+    static $step = 3;
 
     public function getWd() {
         return $this->wd;
@@ -178,32 +178,8 @@ class BlogController extends Controller
      */
     public function searchBlogAction(Request $request)
     {
-        $q = '%'.$request->query->get('s').'%';
-        return $this->pageAction($q,0);
-    }
-
-    private function generatePages($totals, $cp, $step, $wd) {
-        $pages = array();
-        if ($cp > 0) {
-            $pages[] = new PageDomain($wd,0,'First');
-            $pages[] = new PageDomain($wd,$cp - $step,'Prev');
-        }
-
-        for($i = 0, $j = 1; $i< $totals; $i=$i+$step,$j++) {
-            $page = new PageDomain($wd,$i,$j);
-            if($cp == $i) {
-                $page->setIsCurrent(true);
-            }
-            $pages[] = $page;
-        }
-
-        if ($cp + $step < $totals) {
-            $pages[] = new PageDomain($wd,$cp + $step,'Next');
-            $tmp = $totals % $step == 0 ? $step : $totals % $step ;
-            $pages[] = new PageDomain($wd,$totals - $tmp,'Last');
-        }
-
-        return $pages;
+        $s = '%'.$request->query->get('s').'%';
+        return $this->pageAction($s,0);
     }
 
     /**
@@ -215,7 +191,7 @@ class BlogController extends Controller
         $result = $this->pagination($wd,$pn);
         $blogPosts = $result[0];
         $cp = $result[1];
-        $pages = $this->generatePages($cp,$pn,self::$step,$wd);
+        $pages = (new Pagination())->generatePages($cp,$pn,self::$step,$wd);
         return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>$pn,'pages'=>$pages));
     }
 

@@ -1,0 +1,13 @@
+<ul style="float:right;list-style-type:none">
+    {% if pages is defined %}
+        {% for page in pages %}
+            {% if page.isCurrent %}
+                <span>{{ page.title }}</span>
+            {% else %}
+                <li style="display:inline;">
+                    <a href="{{ path(page_route,{ 'wd':page.wd, 'pn': page.pn }) }}" target="_self">{{ page.title }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</ul>

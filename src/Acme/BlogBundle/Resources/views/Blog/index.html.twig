@@ -35,19 +35,7 @@
             <p><a href="{{ path('blog_viewpost', { 'id': post.id }) }}">Read More</a></p>
         </div>
     {% endfor %}
-    <ul style="float:right;list-style-type:none">
-        {% if pages is defined %}
-        {% for page in pages %}
-            {% if page.isCurrent %}
-                <span>{{ page.title }}</span>
-            {% else %}
-                <li style="display:inline;">
-                    <a href="{{ path('page',{ 'wd':page.wd, 'pn': page.pn }) }}" target="_self">{{ page.title }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        {% endif %}
-    </ul>
+    {{ include('UtilCommonBundle:Common:pagination.html.twig',{'pages':pages,'page_route':'page'}) }}
 </div>
 </body>
 </html>
