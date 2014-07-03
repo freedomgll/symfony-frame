@@ -209,4 +209,5 @@ class BlogController extends Controller
 
         return array($paginator,$c);
     }
+
 }

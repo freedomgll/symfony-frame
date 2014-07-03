@@ -21,4 +21,16 @@ class RegisterUser extends User{
         return $this->passwordConfirm;
     }
 
+    /**
+     * Set Id
+     *
+     * @param string $id
+     * @return User
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }

@@ -1,0 +1,52 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}"/>
+</head>
+<body>
+<div id="wrapper">
+    {{ include('AcmeBlogBundle:Admin:menu.html.twig') }}
+    {% if errors is defined %}
+        {% for error in errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{{ path('blog_update_user') }}" method="post">
+        <input type="hidden" name="_id" value="{{ user.id }}" />
+        <table>
+            <tr>
+                <td>
+                    <label for="username">Username</label>
+                </td>
+                <td>
+                    <input type="text" readonly="true"  id="username" name="_username" value="{{ user.username }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Password</label>
+                </td>
+                <td>
+                    <input type="password" id="password" name="_password" value="{{ user.password }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="passwordConfirm">Confirm Password</label>
+                </td>
+                <td>
+                    <input type="password" id="passwordConfirm" name="_passwordConfirm" value="{{ user.passwordConfirm }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Update</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
