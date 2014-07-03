@@ -38,10 +38,6 @@ blog_admin_index:
     path: /blog/admin/index
     defaults: { _controller: AcmeBlogBundle:Blog:index }
 
-page:
-    path: /blog/page/{index}/{p}
-    defaults: { _controller: AcmeBlogBundle:Blog:page }
-
 photos:
     path: /photos
     defaults: { _controller: AcmeBlogBundle:Blog:photo }

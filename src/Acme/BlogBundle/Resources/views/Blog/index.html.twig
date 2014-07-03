@@ -12,8 +12,9 @@
     {{ include('AcmeBlogBundle:Admin:head.html.twig') }}
     <h1>Blog</h1>
     <br>
+
     <form action="{{ path('blog_search') }}" method="get">
-        <input name="q" id="search-id" type="search" placeholder="Search Blog"/>
+        <input name="s" id="search-id" type="search" placeholder="Search Blog"/>
         <button type="submit" class="sf-button">
                                 <span class="border-l">
                                     <span class="border-r">
@@ -35,16 +36,17 @@
         </div>
     {% endfor %}
     <ul style="float:right;list-style-type:none">
-        <li style="display:inline;">
-            {% if index <= 0 %}
-                <span>Prev</span>
+        {% if pages is defined %}
+        {% for page in pages %}
+            {% if page.isCurrent %}
+                <span>{{ page.title }}</span>
             {% else %}
-                <a href="{{ path('page',{'index':index, 'p': 'p' }) }}" target="_self">Prev</a>
+                <li style="display:inline;">
+                    <a href="{{ path('page',{ 'wd':page.wd, 'pn': page.pn }) }}" target="_self">{{ page.title }}</a>
+                </li>
             {% endif %}
-        </li>
-        <li style="display:inline;">
-            <a href="{{ path('page',{ 'index':index, 'p': 'n' }) }}" target="_self">Next</a>
-        </li>
+        {% endfor %}
+        {% endif %}
     </ul>
 </div>
 </body>

@@ -12,10 +12,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \DateTime;
 
 use Acme\BlogBundle\Entity\Blog;
+use Acme\BlogBundle\Common\PageDomain;
 
 class BlogController extends Controller
 {
+    private $wd = '';
+
     static $step = 2;
+
+    public function getWd() {
+        return $this->wd;
+    }
+
+    public function setWd($wd) {
+        $this->wd = $wd;
+        return $this;
+    }
 
     public function listAction()
     {
@@ -72,21 +84,6 @@ class BlogController extends Controller
             #echo $post->getHeadline() . "\n";
         }
         return $paginator;
-    }
-
-    public function pageAction($index,$p)
-    {
-        if ($p == 'p') {
-            if ($index - self::$step >= 0) {
-                $index = $index - self::$step;
-            }
-            $blogPosts = $this->pagination($index);
-        } elseif ($p == 'n') {
-            $index = $index + self::$step;
-            $blogPosts = $this->pagination($index);
-        }
-
-        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>$index));
     }
 
     public function viewpostAction($id)
@@ -198,19 +195,55 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/q",name="blog_search")
+     * @Route("/blog/s",name="blog_search")
      * @Template()
      */
     public function searchBlogAction(Request $request)
     {
-        $q = '%'.$request->query->get('q').'%';
+        $q = '%'.$request->query->get('s').'%';
 
         $dql = "SELECT b FROM AcmeBlogBundle:Blog b WHERE b.postCont LIKE :q";
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql)->setParameter('q',$q);
         $blogPosts = $query->getResult();
 
-        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>0));
+        $this->setWd($q);
+
+        $pages = $this->generatePages(8,0,2,'test');
+
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>0,'pages'=>$pages));
         #return $this->blogAction();
+    }
+
+    private function generatePages($totals, $cp, $step, $wd) {
+        $pages = array();
+        if ($cp > 0) {
+            $pages[] = new PageDomain($wd,$cp - $step,'Prev');
+        }
+
+        for($i = 0, $j = 1; $i< $totals; $i=$i+$step,$j++) {
+            $page = new PageDomain($wd,$i,$j);
+            if($cp == $i) {
+                $page->setIsCurrent(true);
+            }
+            $pages[] = $page;
+        }
+
+        if ($cp + $step < $totals) {
+            $pages[] = new PageDomain($wd,$cp + $step,'Next');
+        }
+
+        return $pages;
+    }
+
+    /**
+     * @Route("/blog/page/{wd}/{pn}",name="page")
+     * @Template()
+     */
+    public function pageAction($wd,$pn)
+    {
+        $blogPosts = $this->pagination($pn);
+        $pages = $this->generatePages(8,$pn,2,$wd);
+        return $this->render('AcmeBlogBundle:Blog:index.html.twig',array('blogPosts'=>$blogPosts,'index'=>$pn,'pages'=>$pages));
     }
 }
