@@ -58,4 +58,44 @@ class BUser
     {
         return $this->user;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->blogs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add blogs
+     *
+     * @param \Acme\BlogBundle\Entity\Blog $blogs
+     * @return BUser
+     */
+    public function addBlog(\Acme\BlogBundle\Entity\Blog $blogs)
+    {
+        $this->blogs[] = $blogs;
+
+        return $this;
+    }
+
+    /**
+     * Remove blogs
+     *
+     * @param \Acme\BlogBundle\Entity\Blog $blogs
+     */
+    public function removeBlog(\Acme\BlogBundle\Entity\Blog $blogs)
+    {
+        $this->blogs->removeElement($blogs);
+    }
+
+    /**
+     * Get blogs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBlogs()
+    {
+        return $this->blogs;
+    }
 }

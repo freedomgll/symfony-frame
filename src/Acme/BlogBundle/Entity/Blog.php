@@ -44,6 +44,11 @@ class Blog
     private $buser;
 
     /**
+     * @ORM\OneToMany(targetEntity="BlogComment", mappedBy="blog")
+     **/
+    private $comments;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -167,5 +172,45 @@ class Blog
     public function getBuser()
     {
         return $this->buser;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Acme\BlogBundle\Entity\BlogComment $comments
+     * @return Blog
+     */
+    public function addComment(\Acme\BlogBundle\Entity\BlogComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Acme\BlogBundle\Entity\BlogComment $comments
+     */
+    public function removeComment(\Acme\BlogBundle\Entity\BlogComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

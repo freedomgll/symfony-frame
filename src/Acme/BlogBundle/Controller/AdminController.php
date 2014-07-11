@@ -12,9 +12,12 @@ use Acme\BlogBundle\Entity\RegisterUser;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Swift_Message;
 
 
 /**
@@ -93,6 +96,25 @@ class AdminController extends Controller
 
             return $this->redirect($this->generateUrl('blog_admin_index'));
         }
+    }
+
+    /**
+     * @Route("/send",name="blog_send")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Hello Email')
+            ->setFrom('freedomgll@163.com')
+            ->setTo('freedomgll@163.com')
+            ->setBody(
+                'kkkk'
+            )
+        ;
+        $this->get('mailer')->send($message);
+
+        return new Response('<h1>OK</h1>');
     }
 
 } 
