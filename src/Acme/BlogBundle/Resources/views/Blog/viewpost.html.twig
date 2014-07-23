@@ -21,11 +21,12 @@
     </div>
 
     {% for comment in blogPost.comments %}
-        <p>Comment ID :{{ comment.id }}</p>
+        <p>User :{{ comment.buser.user.username }} , Comment ID :{{ comment.id }}</p>
         <div id="comment">
             <p>{{ comment.comment }}</p>
         </div>
     {% endfor %}
+    {{ include('AcmeBlogBundle:Blog:comment.html.twig',{ 'viewId': blogPost.id })}}
 </div>
 </body>
 </html>

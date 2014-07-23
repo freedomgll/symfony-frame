@@ -1,0 +1,13 @@
+<hr />
+<div id="footer" class="admin-link">
+    {% if is_granted("ROLE_USER") %}
+        <label> Hi,{{ app.user.username }}</label>
+        <form action="{{ path('postComment') }}" method="post">
+            <input type="hidden" id="_viewId" name="_viewId" value="{{ viewId }}"/>
+            <p>Comment:</p>
+            <textarea id="_reply" name="_reply" cols="80" rows="8"></textarea>
+            <br>
+            <button type="submit">Post</button>
+        </form>
+    {% endif %}
+</div>

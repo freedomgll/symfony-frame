@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use \DateTime;
 
 use Acme\BlogBundle\Entity\Blog;
+use Acme\BlogBundle\Entity\BlogComment;
 use Util\CommonBundle\Common\Pagination;
 
 class BlogController extends Controller
@@ -69,6 +70,16 @@ class BlogController extends Controller
         $repository = $this->getDoctrine()
             ->getRepository('AcmeBlogBundle:Blog');
         $blogPost = $repository->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT b FROM AcmeBlogBundle:Blog b JOIN b.comments comment JOIN comment.buser bu
+             WHERE b.id = :id
+            '
+        )->setParameter('id',$id);
+
+        $blogPost = $query->getSingleResult();
+
         return $this->render('AcmeBlogBundle:Blog:viewpost.html.twig',array('blogPost'=>$blogPost));
     }
 
@@ -208,6 +219,42 @@ class BlogController extends Controller
         $c = count($paginator);
 
         return array($paginator,$c);
+    }
+
+    /**
+     * @Route("/blog/postComment",name="postComment")
+     * @Template()
+     */
+    public function postCommentAction(Request $request) {
+        $comment = $request->request->get('_reply');
+        $viewId = $request->request->get('_viewId');
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT bu FROM AcmeBlogBundle:BUser bu JOIN bu.user u
+             WHERE u.id = :id
+            '
+        )->setParameter('id',$user->getId());
+
+        $buser = $query->getSingleResult();
+
+
+        $repository = $this->getDoctrine()
+            ->getRepository('AcmeBlogBundle:Blog');
+        $blogPost = $repository->find($viewId);
+
+        $blogComment = new BlogComment();
+        $blogComment->setBlog($blogPost);
+        $blogComment->setComment($comment);
+        $blogComment->setPostDate(new DateTime());
+        $blogComment->setBuser($buser);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($blogComment);
+        $em->flush();
+
+        return $this->viewpostAction($viewId);
     }
 
 }
