@@ -6,12 +6,24 @@
     <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/normalize.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/main.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/acmeblog/css/demo.css') }}"/>
+
+    <link rel="stylesheet" href="{{ asset('bundles/acmeblog/jquery/ui/1.11.0/jquery-ui.css') }}">
+    <script src="{{ asset('bundles/acmeblog/jquery/jquery-1.10.2.js') }}"></script>
+    <script src="{{ asset('bundles/acmeblog/jquery/ui/1.11.0/jquery-ui.js') }}"></script>
+
+    <script>
+        $(function() {
+            $( "#datepicker" ).datepicker();
+        });
+    </script>
 </head>
 <body>
 <div id="wrapper">
     {{ include('AcmeBlogBundle:Admin:head.html.twig') }}
     <h1>Blog</h1>
     <br>
+
+    <div id="datepicker"></div>
 
     <form action="{{ path('blog_search') }}" method="get">
         <input name="s" id="search-id" type="search" placeholder="Search Blog"/>

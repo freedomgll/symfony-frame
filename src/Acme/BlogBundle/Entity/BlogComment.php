@@ -16,7 +16,7 @@ class BlogComment
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="BUser")
+     * @ORM\ManyToOne(targetEntity="BUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
     private $buser;

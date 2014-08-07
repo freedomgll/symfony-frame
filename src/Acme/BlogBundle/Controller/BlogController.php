@@ -73,7 +73,7 @@ class BlogController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-            'SELECT b FROM AcmeBlogBundle:Blog b JOIN b.comments comment JOIN comment.buser bu
+            'SELECT b FROM AcmeBlogBundle:Blog b LEFT JOIN b.comments comment LEFT JOIN comment.buser bu
              WHERE b.id = :id
             '
         )->setParameter('id',$id);
